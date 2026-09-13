@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>生日快乐 · 付琪芬</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Comic Sans MS", cursive, sans-serif;
+    background: linear-gradient(135deg, #e8f1ff 0%, #f5f0ff 50%, #e8f1ff 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+    color: #6b4a5a;
+  }
+
+  /* 飘落的雪花 */
+  .snowflake {
+    position: fixed;
+    top: -10vh;
+    color: #ffffff;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.8;
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.9);
+    animation: snowFall linear infinite;
+  }
+
+  @keyframes snowFall {
+    0% {
+      transform: translateY(0) translateX(0) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.9;
+    }
+    50% {
+      transform: translateY(55vh) translateX(20px) rotate(180deg);
+    }
+    100% {
+      transform: translateY(110vh) translateX(-20px) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  /* 开场动画 */
+  .intro {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #d6e6ff, #f0e6ff);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    transition: opacity 1s ease, visibility 1s ease;
+  }
+
+  .intro.hide {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .intro h1 {
+    font-size: clamp(28px, 7vw, 56px);
+    color: #6b8cff;
+    text-shadow: 2px 2px 0 #fff, 4px 4px 0 rgba(107, 140, 255, 0.2);
+    animation: popIn 1s ease forwards;
+    opacity: 0;
+    transform: scale(0.3);
+  }
+
+  .intro .cake {
+    margin-top: 20px;
+    animation: bounce 1.2s ease infinite;
+  }
+
+  .intro .cake svg {
+    width: clamp(80px, 20vw, 140px);
+    height: auto;
+    display: block;
+  }
+
+  @keyframes popIn {
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
+
+  /* 主内容 */
+  .main {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 20px 80px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 1s ease 0.3s;
+  }
+
+  .main.show {
+    opacity: 1;
+  }
+
+  .title {
+    font-size: clamp(32px, 8vw, 64px);
+    color: #6b8cff;
+    text-shadow: 3px 3px 0 #fff, 6px 6px 0 rgba(107, 140, 255, 0.15);
+    margin-bottom: 10px;
+    animation: titleFloat 3s ease-in-out infinite;
+  }
+
+  @keyframes titleFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .subtitle {
+    font-size: clamp(18px, 4vw, 26px);
+    color: #8a7aa8;
+    margin-bottom: 30px;
+  }
+
+  .name {
+    display: inline-block;
+    font-size: clamp(28px, 7vw, 48px);
+    color: #8fa8ff;
+    background: #fff;
+    padding: 10px 30px;
+    border-radius: 50px;
+    box-shadow: 0 6px 0 #d6e6ff, 0 10px 20px rgba(107, 140, 255, 0.2);
+    margin-bottom: 40px;
+    animation: namePop 2s ease-in-out infinite;
+  }
+
+  @keyframes namePop {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  /* 祝福卡片 */
+  .wish-card {
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 30px;
+    padding: 35px 25px;
+    margin-bottom: 50px;
+    box-shadow: 0 10px 30px rgba(107, 140, 255, 0.2);
+    border: 3px dashed #d6e6ff;
+    line-height: 1.9;
+    font-size: clamp(15px, 3.5vw, 18px);
+    color: #6b5a7a;
+  }
+
+  .wish-card p {
+    margin-bottom: 12px;
+  }
+
+  .wish-card .emoji {
+    font-size: 24px;
+  }
+
+  /* 日历 */
+  .calendar-section {
+    margin-bottom: 50px;
+  }
+
+  .calendar-title {
+    font-size: clamp(20px, 5vw, 28px);
+    color: #8fa8ff;
+    margin-bottom: 25px;
+  }
+
+  .calendar {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 24px;
+    padding: 25px 20px;
+    box-shadow: 0 10px 30px rgba(107, 140, 255, 0.2);
+    border: 3px solid #d6e6ff;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  .calendar-header {
+    font-size: clamp(18px, 4.5vw, 22px);
+    color: #6b8cff;
+    font-weight: bold;
+    margin-bottom: 18px;
+  }
+
+  .calendar-weekdays,
+  .calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+  }
+
+  .calendar-weekdays div {
+    font-size: 13px;
+    color: #8a7aa8;
+    padding: 6px 0;
+    font-weight: bold;
+  }
+
+  .calendar-days div {
+    font-size: clamp(13px, 3.5vw, 15px);
+    color: #6b5a7a;
+    padding: 8px 0;
+    border-radius: 50%;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .calendar-days .empty {
+    visibility: hidden;
+  }
+
+  .calendar-days .birthday {
+    background: #6b8cff;
+    color: #fff;
+    font-weight: bold;
+    box-shadow: 0 0 0 4px rgba(107, 140, 255, 0.25), 0 0 20px rgba(107, 140, 255, 0.6);
+    animation: birthdayPulse 1.8s ease-in-out infinite;
+    position: relative;
+  }
+
+  .calendar-days .birthday::after {
+    content: "";
+    position: absolute;
+    top: -26px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 22px;
+    height: 22px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='10' y='30' width='44' height='26' rx='6' fill='%23ff9ec7'/%3E%3Crect x='10' y='30' width='44' height='8' rx='4' fill='%23ffc2dd'/%3E%3Crect x='14' y='40' width='36' height='4' fill='%23fff0f7'/%3E%3Crect x='14' y='48' width='36' height='4' fill='%23fff0f7'/%3E%3Crect x='30' y='16' width='4' height='12' rx='2' fill='%23ffd166'/%3E%3Cellipse cx='32' cy='13' rx='3' ry='5' fill='%23ff6b9d'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    animation: cakeBounce 1.5s ease-in-out infinite;
+  }
+
+  @keyframes cakeBounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-4px); }
+  }
+
+  @keyframes birthdayPulse {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 0 0 4px rgba(107, 140, 255, 0.25), 0 0 20px rgba(107, 140, 255, 0.6);
+    }
+    50% {
+      transform: scale(1.12);
+      box-shadow: 0 0 0 6px rgba(107, 140, 255, 0.35), 0 0 30px rgba(107, 140, 255, 0.8);
+    }
+  }
+
+  .calendar-note {
+    margin-top: 18px;
+    font-size: clamp(14px, 3.5vw, 16px);
+    color: #6b8cff;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .calendar-note .mini-cake {
+    width: 20px;
+    height: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='10' y='30' width='44' height='26' rx='6' fill='%23ff9ec7'/%3E%3Crect x='10' y='30' width='44' height='8' rx='4' fill='%23ffc2dd'/%3E%3Crect x='14' y='40' width='36' height='4' fill='%23fff0f7'/%3E%3Crect x='14' y='48' width='36' height='4' fill='%23fff0f7'/%3E%3Crect x='30' y='16' width='4' height='12' rx='2' fill='%23ffd166'/%3E%3Cellipse cx='32' cy='13' rx='3' ry='5' fill='%23ff6b9d'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+  }
+
+  /* 照片墙 */
+  .gallery-title {
+    font-size: clamp(20px, 5vw, 28px);
+    color: #8fa8ff;
+    margin-bottom: 25px;
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 18px;
+    margin-bottom: 50px;
+  }
+
+  .photo {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #fff;
+    padding: 8px;
+    box-shadow: 0 8px 20px rgba(107, 140, 255, 0.25);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    cursor: pointer;
+  }
+
+  .photo:nth-child(odd) {
+    transform: rotate(-2deg);
+  }
+
+  .photo:nth-child(even) {
+    transform: rotate(2deg);
+  }
+
+  .photo:hover {
+    transform: rotate(0deg) scale(1.06);
+    box-shadow: 0 14px 30px rgba(107, 140, 255, 0.4);
+    z-index: 3;
+  }
+
+  .photo img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 14px;
+    display: block;
+  }
+
+  .photo .caption {
+    font-size: 13px;
+    color: #8a7aa8;
+    padding: 8px 4px 4px;
+  }
+
+  /* 结尾 */
+  .ending {
+    font-size: clamp(16px, 4vw, 22px);
+    color: #6b8cff;
+    line-height: 2;
+  }
+
+  .ending .big {
+    font-size: clamp(22px, 6vw, 36px);
+    display: block;
+    margin-bottom: 10px;
+    animation: heartbeat 1.5s ease infinite;
+  }
+
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    25% { transform: scale(1.15); }
+    40% { transform: scale(1); }
+    60% { transform: scale(1.1); }
+  }
+
+  /* 烟花特效 */
+  .firework-flash {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 200;
+    transform: translate(-50%, -50%);
+    animation: flashOut 0.4s ease-out forwards;
+    box-shadow: 0 0 30px 10px currentColor;
+  }
+
+  @keyframes flashOut {
+    0% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(0.5);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(2.5);
+    }
+  }
+
+  .firework-particle {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 199;
+    transform: translate(-50%, -50%);
+    animation: particleFly ease-out forwards;
+  }
+
+  @keyframes particleFly {
+    0% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.2);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .main {
+      padding: 40px 14px 60px;
+    }
+    .gallery {
+      gap: 12px;
+    }
+    .photo {
+      padding: 6px;
+    }
+    .calendar {
+      padding: 18px 14px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- 飘落雪花 -->
+<div class="hearts" id="hearts"></div>
+
+<!-- 开场动画 -->
+<div class="intro" id="intro">
+  <h1>Happy Birthday</h1>
+  <div class="cake">
+    <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+      <rect x="10" y="30" width="44" height="26" rx="6" fill="#ff9ec7"/>
+      <rect x="10" y="30" width="44" height="8" rx="4" fill="#ffc2dd"/>
+      <rect x="14" y="40" width="36" height="4" fill="#fff0f7"/>
+      <rect x="14" y="48" width="36" height="4" fill="#fff0f7"/>
+      <rect x="30" y="16" width="4" height="12" rx="2" fill="#ffd166"/>
+      <ellipse cx="32" cy="13" rx="3" ry="5" fill="#ff6b9d"/>
+    </svg>
+  </div>
+</div>
+
+<!-- 主内容 -->
+<div class="main" id="main">
+  <h1 class="title">生日快乐</h1>
+  <p class="subtitle">✨ 致最可爱的你 ✨</p>
+  <div class="name">付琪芬</div>
+
+  <div class="wish-card">
+    <p><span class="emoji">❄️</span> 愿你新的一岁，</p>
+    <p>眼里有光，心里有爱，</p>
+    <p>每一天都被温柔和快乐包围。</p>
+    <p>愿你想要的都拥有，</p>
+    <p>得不到的都释怀。</p>
+    <p>生日快乐，永远可爱！<span class="emoji">🎈</span></p>
+  </div>
+
+  <!-- 日历 -->
+  <div class="calendar-section">
+    <h2 class="calendar-title">📅 属于你的日子</h2>
+    <div class="calendar">
+      <div class="calendar-header">2027 年 1 月</div>
+      <div class="calendar-weekdays">
+        <div>日</div>
+        <div>一</div>
+        <div>二</div>
+        <div>三</div>
+        <div>四</div>
+        <div>五</div>
+        <div>六</div>
+      </div>
+      <div class="calendar-days">
+        <div class="empty"></div>
+        <div class="empty"></div>
+        <div class="empty"></div>
+        <div class="empty"></div>
+        <div class="empty"></div>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+        <div>8</div>
+        <div>9</div>
+        <div class="birthday">10</div>
+        <div>11</div>
+        <div>12</div>
+        <div>13</div>
+        <div>14</div>
+        <div>15</div>
+        <div>16</div>
+        <div>17</div>
+        <div>18</div>
+        <div>19</div>
+        <div>20</div>
+        <div>21</div>
+        <div>22</div>
+        <div>23</div>
+        <div>24</div>
+        <div>25</div>
+        <div>26</div>
+        <div>27</div>
+        <div>28</div>
+        <div>29</div>
+        <div>30</div>
+        <div>31</div>
+      </div>
+      <div class="calendar-note">
+        <span class="mini-cake"></span>
+        2027 年 1 月 10 日 · 你的生日
+      </div>
+    </div>
+  </div>
+
+  <h2 class="gallery-title">📸 我们的美好瞬间</h2>
+  <div class="gallery">
+    <div class="photo">
+      <img src="photo1.jpg" alt="照片1">
+      <div class="caption">最好的时光</div>
+    </div>
+    <div class="photo">
+      <img src="photo2.jpg" alt="照片2">
+      <div class="caption">笑一个呀</div>
+    </div>
+    <div class="photo">
+      <img src="photo3.jpg" alt="照片3">
+      <div class="caption">一起走过的路</div>
+    </div>
+    <div class="photo">
+      <img src="photo4.jpg" alt="照片4">
+      <div class="caption">可爱瞬间</div>
+    </div>
+    <div class="photo">
+      <img src="photo5.jpg" alt="照片5">
+      <div class="caption">未来可期</div>
+    </div>
+  </div>
+
+  <div class="ending">
+    <span class="big">🎉 生日快乐 🎉</span>
+    <p>点击页面任意位置，有烟花哦～</p>
+  </div>
+</div>
+
+<script>
+  // 飘落的雪花
+  const snowContainer = document.getElementById('hearts');
+
+  function createSnow() {
+    const snow = document.createElement('div');
+    snow.className = 'snowflake';
+    snow.textContent = '❄';
+    snow.style.left = Math.random() * 100 + 'vw';
+    snow.style.fontSize = (10 + Math.random() * 18) + 'px';
+    snow.style.animationDuration = (7 + Math.random() * 8) + 's';
+    snow.style.animationDelay = Math.random() * 4 + 's';
+    snow.style.opacity = 0.4 + Math.random() * 0.5;
+    snowContainer.appendChild(snow);
+    setTimeout(() => snow.remove(), 18000);
+  }
+
+  setInterval(createSnow, 350);
+  for (let i = 0; i < 20; i++) createSnow();
+
+  // 开场动画结束后显示主内容
+  setTimeout(() => {
+    document.getElementById('intro').classList.add('hide');
+    document.getElementById('main').classList.add('show');
+  }, 2600);
+
+  // ===== 点击烟花特效 =====
+  const fireworkColors = [
+    '#6b8cff', '#a2d2ff', '#d6e6ff', '#c8b6ff',
+    '#8fa8ff', '#90e0ef', '#ffd166', '#ffb3c6',
+    '#b7e4c7', '#ff8fab'
+  ];
+
+  document.addEventListener('click', function(e) {
+    createFirework(e.clientX, e.clientY);
+  });
+
+  function createFirework(x, y) {
+    const particleCount = 28;
+    const color = fireworkColors[Math.floor(Math.random() * fireworkColors.length)];
+
+    // 中心闪光
+    const flash = document.createElement('div');
+    flash.className = 'firework-flash';
+    flash.style.left = x + 'px';
+    flash.style.top = y + 'px';
+    flash.style.background = color;
+    flash.style.color = color;
+    document.body.appendChild(flash);
+    setTimeout(() => flash.remove(), 400);
+
+    // 粒子
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'firework-particle';
+      particle.style.left = x + 'px';
+      particle.style.top = y + 'px';
+      particle.style.background = Math.random() > 0.5
+        ? color
+        : fireworkColors[Math.floor(Math.random() * fireworkColors.length)];
+
+      const angle = (Math.PI * 2 * i) / particleCount;
+      const distance = 60 + Math.random() * 90;
+      const dx = Math.cos(angle) * distance;
+      const dy = Math.sin(angle) * distance;
+      const size = 4 + Math.random() * 4;
+
+      particle.style.width = size + 'px';
+      particle.style.height = size + 'px';
+      particle.style.setProperty('--dx', dx + 'px');
+      particle.style.setProperty('--dy', dy + 'px');
+      particle.style.animationDuration = (0.7 + Math.random() * 0.5) + 's';
+
+      document.body.appendChild(particle);
+      setTimeout(() => particle.remove(), 1400);
+    }
+  }
+</script>
+
+</body>
+</html>
